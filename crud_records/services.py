@@ -1,12 +1,16 @@
-
+# Python
 from uuid import uuid1
+
+# SQLalchemy
 from sqlalchemy.orm import Session
+
+# Development
 from .schema import *
 from .model import Record_ as Model
 from auth.services import auth_level
 
 @auth_level(level = [1])
-async def create_new_record(record:Record,db:Session, *args, **kwargs) -> ResponseModel:
+async def create_new_record(record:Record, db:Session, *args, **kwargs) -> ResponseModel:
     """_Creamos un nuevo registro_
     
     Args:
@@ -37,11 +41,11 @@ async def create_new_record(record:Record,db:Session, *args, **kwargs) -> Respon
             message="Registro creado correctamente")
     except Exception as ex:
         return ResponseModel(
-            is_success=False,
-            message=ex)
+            is_success = False,
+            message = ex)
 
 @auth_level(level = [2])
-async def read_addresses_by_id(id:str,db:Session, *args, **kwargs) -> str:
+async def read_addresses_by_id(id:str, db:Session, *args, **kwargs) -> str:
     """_A partir de un Id consultamos la dirección de un registro_
     
     Args:
@@ -55,7 +59,7 @@ async def read_addresses_by_id(id:str,db:Session, *args, **kwargs) -> str:
     return _object.estado_de_nacimiento
 
 @auth_level(level = [1,3])
-async def read_by_id(id:str,db:Session, *args, **kwargs) -> Record:
+async def read_by_id(id:str, db:Session, *args, **kwargs) -> Record:
     """_A partir de un Id consultamos un registro_
     
     Args:
@@ -81,7 +85,7 @@ async def read_all(db:Session, *args, **kwargs):
     return db.query(Model).all()
 
 @auth_level(level = [1,2])
-async def update_by_id(id:int,record:Record,db:Session, *args, **kwargs) -> ResponseModel:
+async def update_by_id(id:int, record:Record, db:Session, *args, **kwargs) -> ResponseModel:
     """_A partir de un Id actualizamos un registro_
     
     Args:
@@ -109,12 +113,12 @@ async def update_by_id(id:int,record:Record,db:Session, *args, **kwargs) -> Resp
         db.commit()
         db.refresh(_object)
         return ResponseModel(
-            is_success=True,
-            message="Registro actualizado correctamente")
+            is_success = True,
+            message = "Registro actualizado correctamente")
     except Exception as ex:
         return ResponseModel(
-            is_success=False,
-            message=ex)
+            is_success = False,
+            message = ex)
 
 @auth_level(level = [1])
 async def delete_by_id(id:int,db:Session, *args, **kwargs) -> ResponseModel:
@@ -131,11 +135,11 @@ async def delete_by_id(id:int,db:Session, *args, **kwargs) -> ResponseModel:
         db.query(Model).filter(Model.id == id).delete()
         db.commit()
         return ResponseModel(
-            is_success=True,
-            message="Registro eliminado")
+            is_success = True,
+            message = "Registro eliminado")
     except Exception as ex:
         return ResponseModel(
-            is_success=False,
-            message=ex)
+            is_success = False,
+            message = ex)
 
 

@@ -5,7 +5,7 @@ from .schema import *
 from .model import Directory as Model
 
 
-async def create_new_user(user:User,db:Session) -> ResponseModel:
+async def create_new_user(user:User, db:Session) -> ResponseModel:
     """_summary_
     Agregamos un usuario a la base de datos
     
@@ -27,15 +27,15 @@ async def create_new_user(user:User,db:Session) -> ResponseModel:
         db.commit()
         db.refresh(_object)
         return ResponseModel(
-            is_success=True,
-            message="Registro creado correctamente")
+            is_success = True,
+            message = "Registro creado correctamente")
     except Exception as ex:
         return ResponseModel(
-            is_success=False,
-            message=ex)
+            is_success = False,
+            message = ex)
 
 
-async def read_by_id(id:int,db:Session):
+async def read_by_id(id:int, db:Session):
     """_summary_
     Consultamos los datos de un usuario a partir de su id
     Args:
@@ -60,7 +60,7 @@ async def read_all(db:Session):
     return db.query(Model).all()
 
 
-async def update_by_id(id:str,user:User,db:Session) -> ResponseModel:
+async def update_by_id(id:str, user:User, db:Session) -> ResponseModel:
     """_summary_
     Actualizamos los datos de un usuario a partir de su id
     Args:
@@ -82,15 +82,15 @@ async def update_by_id(id:str,user:User,db:Session) -> ResponseModel:
         db.commit()
         db.refresh(_object)
         return ResponseModel(
-            is_success=True,
-            message="Registro creado correctamente")
+            is_success = True,
+            message = "Registro creado correctamente")
     except Exception as ex:
         return ResponseModel(
-            is_success=False,
-            message=ex)
+            is_success = False,
+            message = ex)
 
 
-async def delete_by_id(id:int,db:Session) -> ResponseModel:
+async def delete_by_id(id:int, db:Session) -> ResponseModel:
     """_summary_
     Borramos un usuario a partir de un id
     Args:
@@ -104,12 +104,12 @@ async def delete_by_id(id:int,db:Session) -> ResponseModel:
         db.query(Model).filter(Model.id == id).delete()
         db.commit()
         return ResponseModel(
-            is_success=True,
-            message="Registro eliminado")
+            is_success = True,
+            message = "Registro eliminado")
     except Exception as ex:
         return ResponseModel(
-            is_success=False,
-            message=ex)
+            is_success = False,
+            message = ex)
 
 
 

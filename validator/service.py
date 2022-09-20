@@ -8,6 +8,8 @@ from .utils import *
 
 
 class Validator:
+    
+    
     def __init__(self, user:Record) -> None:
         self.nombre = user.nombre
         self.primer_apellido = user.primer_apellido
@@ -19,12 +21,14 @@ class Validator:
         self.telefono = user.telefono
         self.fecha_de_nacimiento = user.fecha_de_nacimiento
         
+        
         self.state_validator()
         self.curp_validator()
         self.cp_validator()
         self.rfc_validator()
         self.phone_validator()
         self.date_validation()
+    
     
     def state_validator(self):
         with open("json/states.json", 'r',encoding="utf-8") as f:
@@ -33,6 +37,7 @@ class Validator:
                 return ResponseModel(is_success = True,message = "Estado correcto")
             else:
                 raise "Estado mal escrito"
+           
             
     def curp_validator(self):
         longitud(self.curp, 18)
@@ -46,6 +51,7 @@ class Validator:
     def cp_validator(self):
         longitud(str(self.cp), 5)
         
+        
     def rfc_validator(self):
         try:
             longitud(self.rfc, 13)
@@ -54,8 +60,10 @@ class Validator:
         except Exception as ex:
             raise ex
             
+            
     def phone_validator(self):
         longitud(str(self.telefono), 10)
+     
         
     def date_validation(self):
         dt = datetime.strptime(self.fecha_de_nacimiento, '%d-%m-%Y')

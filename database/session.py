@@ -5,6 +5,7 @@ import pymysql
 from core.config import settings
 from .model_base import SqlAlchemyBase
 
+
 SQALCHEMY_DATABASE_URL = settings.DATABASE_CONNECTION
 engine = create_engine(SQALCHEMY_DATABASE_URL)
 SqlAlchemyBase.metadata.create_all(engine)

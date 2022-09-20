@@ -17,9 +17,12 @@ from crud_users.model import Directory as Model
 #    return auth_decorator
 
 class auth_level(object):
+    
+    
     "Un decorador a partir de una clase"
     def __init__(self, level:list):
         self.level = level
+
 
     def __call__(self, Fun):
         def auth_decorator(*args, **kwargs):
@@ -33,7 +36,6 @@ class auth_level(object):
 
 
 async def validate_user(login:Login,db:Session) -> ResponseModel:
-    #return login
     try:
         user = db.query(Model).filter(Model.user == login.user).first()
         if user.password == login.password:
@@ -46,6 +48,7 @@ async def validate_user(login:Login,db:Session) -> ResponseModel:
             raise "Contraseña incorrecta"
     except:
         return ResponseModel(is_succes = False,message = "contraseña incorrecta")
+
 
 async def generate_token(login:Login,db:Session)-> ResponseModel:
     result = await validate_user(login,db)

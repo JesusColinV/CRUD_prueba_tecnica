@@ -1,6 +1,10 @@
 from uuid import UUID
+
+# SQLalchemy
 from sqlalchemy import Column
 from sqlalchemy.sql.sqltypes import String, Integer, Float, Boolean, Date
+
+#Development
 from database.base_class import Base
    
 class Record_(Base):

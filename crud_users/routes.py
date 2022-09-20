@@ -11,21 +11,22 @@ from fastapi import status
 # SQLalchemy
 from sqlalchemy.orm import Session
 
-
+# Development
 from database.services import get_db
 from .schema import *
 from .model import *
 from .services import *
+
 
 router = APIRouter()
 
 
 @router.post(
     "/auth/create",
-    tags=["Users"],
+    tags = ["Users"],
     response_model = ResponseModel,
-    status_code=status.HTTP_201_CREATED,
-    description="Crea un registro",
+    status_code = status.HTTP_201_CREATED,
+    description = "Crea un registro",
 )
 async def create_user(user:User = Body(...), db:Session = Depends(get_db)):
     """_creación de un usuario_
@@ -40,12 +41,13 @@ async def create_user(user:User = Body(...), db:Session = Depends(get_db)):
     response = await create_new_user(user, db)
     return response
 
+
 @router.get(
     "/auth/{id}/read",
-    tags=["Users"],
+    tags = ["Users"],
     response_model = UserDB,
-    status_code=status.HTTP_200_OK,
-    description="Lee un Usuario existente a partir de su id",
+    status_code = status.HTTP_200_OK,
+    description = "Lee un Usuario existente a partir de su id",
 )
 async def read_user(id:str = Path(...), db:Session = Depends(get_db)):
     """_lectura de un usuario a partir de id_
@@ -60,12 +62,13 @@ async def read_user(id:str = Path(...), db:Session = Depends(get_db)):
     response = await read_by_id(id, db)
     return response
 
+
 @router.get(
     "/auth/read",
-    tags=["Users"],
+    tags = ["Users"],
     response_model = List[UserDB],
-    status_code=status.HTTP_200_OK,
-    description="Lee un Usuario existente a partir de su id",
+    status_code = status.HTTP_200_OK,
+    description = "Lee un Usuario existente a partir de su id",
 )
 async def read_users(db:Session = Depends(get_db)):
     """_Lectura de usuarios disponibles_
@@ -83,10 +86,10 @@ async def read_users(db:Session = Depends(get_db)):
 
 @router.put(
     "/auth/{id}/update",
-    tags=["Users"],
+    tags = ["Users"],
     response_model = ResponseModel,
-    status_code=status.HTTP_200_OK,
-    description="Actualiza un Usuario existente a partir de su id",
+    status_code = status.HTTP_200_OK,
+    description = "Actualiza un Usuario existente a partir de su id",
 )
 async def update_user(id:str = Path(...), user:User = Body(...), 
                       db:Session = Depends(get_db)):
@@ -95,10 +98,10 @@ async def update_user(id:str = Path(...), user:User = Body(...),
 
 @router.delete(
     "/auth/{id}/delete",
-    tags=["Users"],
+    tags = ["Users"],
     response_model = ResponseModel,
-    status_code=status.HTTP_200_OK,
-    description="Borra un Usuario existente a partir de su id",
+    status_code = status.HTTP_200_OK,
+    description = "Borra un Usuario existente a partir de su id",
 )
 async def delete_user(id:str = Path(...), db:Session = Depends(get_db)):
     """_Borrar a un usuario a partir de su id_
