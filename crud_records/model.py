@@ -5,7 +5,7 @@ from database.base_class import Base
    
 class Record(Base):
     __tablename__ = 'record'
-    id = Column(Integer, primary_key=True, index = True)
+    id = Column(String(36), primary_key=True, index = False)
     nombre = Column(String(16), nullable = False)
     primer_apellido = Column(String(16), nullable = False)
     segundo_apellido = Column(String(16), nullable = False)

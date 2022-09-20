@@ -4,31 +4,47 @@ from auth.schema import Login, ResponseModel
 from sqlalchemy.orm import Session
 from crud_users.model import Directory as Model
 
-def auth_level(Fun):
-    """_summary_
-    Valida que el usuario pertenece al nivel de acceso para la actividad que intenta ejecutar  
-    Args:
-        tkn: es un token temporal que determina que este usuario puede realizar dicha acción
-    """
-    def auth_decorator(*args, **kwargs):
-        my_json = Fun(*args, **kwargs)
-        return my_json
-    return auth_decorator
 
-def validate_user(login:Login,db:Session) -> ResponseModel:
+#def auth_level(Fun): 
+#    """_summary_
+#    Valida que el usuario pertenece al nivel de acceso para la actividad que intenta ejecutar 
+#    Agregamos más complejidad usando una clase que permite validar los niveles de acceso
+#    """
+#    def auth_decorator(*args, **kwargs):
+#        my_json = Fun(*args, **kwargs)
+#        return my_json
+#    return auth_decorator
+
+class auth_level(object):
+    "Un decorador a partir de una clase"
+    def __init__(self, level:list):
+        self.level = level
+
+    def __call__(self, Fun):
+        def auth_decorator(token,*args, **kwargs):
+            if token in self.level:
+                f = Fun(*args, **kwargs)
+                return f
+            else:
+                raise NotADirectoryError
+        return auth_decorator
+
+
+async def validate_user(login:Login,db:Session) -> ResponseModel:
     #return login
-    user = db.query(Model).filter(Model.user == login).fetchall()
+    user = db.query(Model).filter(Model.user == login.user).first()
     if user.password == login.password:
-        return ResponseModel(True,login.user,"correct")
+        return ResponseModel(
+            is_succes = True,
+            result = user.level,
+            token= f"lvl_{user.level}",
+            message="correct")
     else:
-        return ResponseModel(False,"correct")
+        return ResponseModel(is_succes = False,message = "contraseña incorrecta")
 
-def generate_token(login:Login,db:Session)-> ResponseModel:
-    result = validate_user(login,db)
-    if result.is_success:
-        return ResponseModel(True,result.result,result.message)
-    else:
-        return ResponseModel(False,result.message)
+async def generate_token(login:Login,db:Session)-> ResponseModel:
+    result = await validate_user(login,db)
+    return result
 
 
 

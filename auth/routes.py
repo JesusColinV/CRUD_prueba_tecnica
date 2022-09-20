@@ -19,7 +19,7 @@ router = fastapi.APIRouter()
 )
 async def login(login:Login, db:Session = fastapi.Depends(get_db)):
     response = await generate_token(login, db)
-    return response.response
+    return response
 
 
 

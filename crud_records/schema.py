@@ -1,11 +1,13 @@
+# Python
 from datetime import datetime
+
+# Pydantic
+from typing import Optional
 from pydantic import BaseModel
-#from PIL import Image
 from pydantic import Field
 
-
 class Record(BaseModel):
-    id:int = Field(...)
+    id:str = Field(...)
     nombre:str = Field(...)
     primer_apellido:str = Field(...)
     segundo_apellido:str = Field(...)
@@ -22,6 +24,6 @@ class Record(BaseModel):
 
 class ResponseModel(BaseModel):
     is_succes:bool = Field(...)
-    result:str = Field(...)
+    result: Optional[str] = None
     message:str = Field(...)
 

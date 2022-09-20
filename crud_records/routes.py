@@ -1,13 +1,21 @@
-import fastapi
-from typing import List
+#Python
+import logging
+from typing import List, Optional
+
+# FastApi
+from fastapi import APIRouter
+from fastapi import Body, Depends, Query
+
+# SQLalchemy
 from sqlalchemy.orm import Session
+
+
 from database.services import get_db
 from .schema import *
 from .model import *
 from .services import *
-import logging
 
-router = fastapi.APIRouter()
+router = APIRouter()
 
 
 @router.post(
@@ -16,8 +24,9 @@ router = fastapi.APIRouter()
     response_model = ResponseModel,
     description="Crea un registro",
 )
-async def create_record(record:Record, db:Session = fastapi.Depends(get_db), token:str = Field(default="valid")):
-    response = await create_record(record, db, token)
+async def create_record(record:Record = Body(...), db:Session = Depends(get_db), 
+                        token:Optional[str] = Query(default="valid")):
+    response = await create_new_record(record, db, token)
     return response
 
 @router.get(
@@ -26,7 +35,8 @@ async def create_record(record:Record, db:Session = fastapi.Depends(get_db), tok
     response_model = ResponseModel,
     description="Lee un registro existente a partir de su id",
 )
-async def read_record(id:int, db:Session = fastapi.Depends(get_db), token:str = Field(default="valid")):
+async def read_record(id:str, db:Session = Depends(get_db), 
+                      token:Optional[str] = Query(default="valid")):
     response = await read_by_id(id, db, token)
     return response
 
@@ -36,7 +46,8 @@ async def read_record(id:int, db:Session = fastapi.Depends(get_db), token:str = 
     response_model = ResponseModel,
     description="Actualiza un registro existente a partir de su id",
 )
-async def update_record(id:int, record:Record, db:Session = fastapi.Depends(get_db), token:str = Field(default="valid")):
+async def update_record(id:str, record:Record, db:Session = Depends(get_db), 
+                        token:Optional[str] = Query(default="valid")):
     response = await update_by_id(id, record, db, token)
     return response
 
@@ -46,6 +57,7 @@ async def update_record(id:int, record:Record, db:Session = fastapi.Depends(get_
     response_model = ResponseModel,
     description="Borra un registro existente a partir de su id",
 )
-async def delete_record(id:int, db:Session = fastapi.Depends(get_db), token:str = Field(default="valid")):
+async def delete_record(id:str, db:Session = Depends(get_db), 
+                        token:Optional[str] = Query(default="valid")):
     response = await delete_by_id(id, db, token)
     return response
