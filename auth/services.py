@@ -1,4 +1,5 @@
 
+from lib2to3.pgen2 import token
 from sqlalchemy.orm import Session
 from auth.schema import Login, ResponseModel
 from sqlalchemy.orm import Session
@@ -21,7 +22,8 @@ class auth_level(object):
         self.level = level
 
     def __call__(self, Fun):
-        def auth_decorator(token,*args, **kwargs):
+        def auth_decorator(*args, **kwargs):
+            token = int(args[-1][-1])
             if token in self.level:
                 f = Fun(*args, **kwargs)
                 return f
@@ -32,14 +34,17 @@ class auth_level(object):
 
 async def validate_user(login:Login,db:Session) -> ResponseModel:
     #return login
-    user = db.query(Model).filter(Model.user == login.user).first()
-    if user.password == login.password:
-        return ResponseModel(
-            is_succes = True,
-            result = user.level,
-            token= f"lvl_{user.level}",
-            message="correct")
-    else:
+    try:
+        user = db.query(Model).filter(Model.user == login.user).first()
+        if user.password == login.password:
+            return ResponseModel(
+                is_succes = True,
+                result = user.level,
+                token= f"lvl_{user.level}",
+                message="correct")
+        else:
+            raise "Contraseña incorrecta"
+    except:
         return ResponseModel(is_succes = False,message = "contraseña incorrecta")
 
 async def generate_token(login:Login,db:Session)-> ResponseModel:

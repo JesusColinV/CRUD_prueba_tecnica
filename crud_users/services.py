@@ -1,6 +1,4 @@
 from sqlalchemy.orm import Session
-from auth.services import auth_level
-from sqlalchemy.orm import Session
 from uuid import uuid1
 
 from .schema import *
@@ -12,11 +10,11 @@ async def create_new_user(user:User,db:Session) -> ResponseModel:
     Agregamos un usuario a la base de datos
     
     Args:
-        user (User): _description_ Datos del usuario a registrarse 
-        db (Session): _description_ Conexión a la base de datos
+        user (User): _Datos del usuario a registrarse_  
+        db (Session): _Conexión a la base de datos_ 
 
     Returns:
-        ResponseModel: _description_ Respuesta 
+        ResponseModel: _Respuesta _ 
     """
     try:
         _object = Model(
@@ -41,8 +39,8 @@ async def read_by_id(id:int,db:Session):
     """_summary_
     Consultamos los datos de un usuario a partir de su id
     Args:
-        id (int): _description_ Id del usuario a leer
-        db (Session): _description_ Conexión a la base de datos
+        id (int): _Id del usuario a leer_ 
+        db (Session): _Conexión a la base de datos_ 
 
     Returns:
         User (User)
@@ -54,7 +52,7 @@ async def read_all(db:Session):
     """_summary_
     Consultamos los datos de todos los usuarios
     Args:
-        db (Session): _description_ Conexión a la base de datos
+        db (Session): _Conexión a la base de datos_ 
 
     Returns:
         Users (List)
@@ -66,12 +64,12 @@ async def update_by_id(id:str,user:User,db:Session) -> ResponseModel:
     """_summary_
     Actualizamos los datos de un usuario a partir de su id
     Args:
-        id (int): _description_ Id del usuario a actualizar
-        user (User): _description_ Datos del usuario a actualizar 
-        db (Session): _description_ Conexión a la base de datos
+        id (int): _Id del usuario a actualizar_ 
+        user (User): _Datos del usuario a actualizar _ 
+        db (Session): _Conexión a la base de datos_ 
 
     Returns:
-        ResponseModel: _description_ Respuesta 
+        ResponseModel: _Respuesta_  
     """
     try:
         _object = Model(
@@ -96,11 +94,11 @@ async def delete_by_id(id:int,db:Session) -> ResponseModel:
     """_summary_
     Borramos un usuario a partir de un id
     Args:
-        id (int): _description_ Id del usuario a borrar
-        db (Session): _description_ Conexión a la base de datos
+        id (int): _Id del usuario a borrar_ 
+        db (Session): _Conexión a la base de datos_ 
 
     Returns:
-        ResponseModel: _description_ Respuesta 
+        ResponseModel: _Respuesta_  
     """
     try:
         db.query(Model).filter(Model.id == id).delete()

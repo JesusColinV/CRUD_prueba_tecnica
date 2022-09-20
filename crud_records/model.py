@@ -1,9 +1,9 @@
 from uuid import UUID
 from sqlalchemy import Column
-from sqlalchemy.sql.sqltypes import String, Integer, Float, Boolean, DateTime
+from sqlalchemy.sql.sqltypes import String, Integer, Float, Boolean, Date
 from database.base_class import Base
    
-class Record(Base):
+class Record_(Base):
     __tablename__ = 'record'
     id = Column(String(36), primary_key=True, index = False)
     nombre = Column(String(16), nullable = False)
@@ -14,7 +14,7 @@ class Record(Base):
     cp = Column(String(16), nullable = False)
     rfc = Column(String(16), nullable = False)
     telefono = Column(String(16), nullable = False)
-    fecha_de_nacimiento = Column(DateTime, nullable = False)
+    fecha_de_nacimiento = Column(String(10), nullable = False)
 
     
     
